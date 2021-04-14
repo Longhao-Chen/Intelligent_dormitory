@@ -10,6 +10,11 @@ complex<T> mul(complx<T> &a, complex<T> &b)
 	res.im = a.re * b.im + a.im * b.re;
 	return res;
 }
+template <typename T>
+complex<T> operator*(const complex<T> &a, const complex<T> &b)
+{
+	return mul(a, b);
+}
 
 //乘i
 template <typename T>
@@ -30,6 +35,11 @@ complex<T> add(complex<T> &a, complex<T> &b)
 	res.im = a.im + b.im;
 	return res;
 }
+template <typename T>
+complex<T> operator+(const complex<T> &a, const complex<T> &b)
+{
+	return add(a, b);
+}
 
 //减法
 template <typename T>
@@ -38,6 +48,11 @@ complex<T> add(complex<T> &a, complex<T> &b)
 	complex<T> res;
 	res.re = a.re - b.re;
 	res.im = a.im - b.im;
+}
+template <typename T>
+complex<T> operator-(const complex<T> &a, const complex<T> &b)
+{
+	return sub(a, b);
 }
 
 //共轭
