@@ -1,3 +1,7 @@
+/*
+Copyright (c) 2021 Longhao-Chen. All rights reserved.
+*/
+
 //通过查表法计算三角函数
 #include "dsp.hpp"
 #include <avr/pgmspace.h>

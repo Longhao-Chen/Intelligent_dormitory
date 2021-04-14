@@ -1,3 +1,7 @@
+/*
+Copyright (c) 2021 Longhao-Chen. All rights reserved.
+*/
+
 //复数运算
 #include "dsp.hpp"
 
