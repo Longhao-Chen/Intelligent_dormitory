@@ -153,3 +153,17 @@ int16_t fastsin32767(uint8_t x)
 	else
 		return pgm_read_word_near(x - 32 + fcosTable);
 }
+
+//输入范围：0-127
+//输出范围：-1~1
+float fastcos(uint8_t x)
+{
+	return fastcos32767(x) / 32767;
+}
+
+//输入范围：0-127
+//输出范围：-1~1
+float fastsin(uint8_t x)
+{
+	return fastsin32767(x) / 32767;
+}
