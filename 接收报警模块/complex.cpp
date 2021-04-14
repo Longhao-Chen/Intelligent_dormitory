@@ -3,7 +3,7 @@
 
 //复数乘法
 template <typename T>
-complex<T> mul(complx<T> &a, complex<T> &b)
+complex<T> mul(complex<T> &a, complex<T> &b)
 {
 	complex<T> res;
 	res.re = a.re * b.re - a.im * b.im;
@@ -11,12 +11,12 @@ complex<T> mul(complx<T> &a, complex<T> &b)
 	return res;
 }
 template <typename T>
-complex<T> operator*(const complex<T> &a, const complex<T> &b)
+complex<T> operator*(complex<T> &a, complex<T> &b)
 {
 	return mul(a, b);
 }
 template <typename T>
-complex<T> operator*(const float &a, const complex<T> &b)
+complex<T> operator*(float &a, complex<T> &b)
 {
 	complex<T> res;
 	res.re = a * b.re;
@@ -26,7 +26,7 @@ complex<T> operator*(const float &a, const complex<T> &b)
 
 //乘i
 template <typename T>
-complex<T> mul_i(complx<T> &a)
+complex<T> mul_i(complex<T> &a)
 {
 	complex<T> res;
 	res.re = -a.im;
@@ -44,21 +44,22 @@ complex<T> add(complex<T> &a, complex<T> &b)
 	return res;
 }
 template <typename T>
-complex<T> operator+(const complex<T> &a, const complex<T> &b)
+complex<T> operator+(complex<T> &a, complex<T> &b)
 {
 	return add(a, b);
 }
 
 //减法
 template <typename T>
-complex<T> add(complex<T> &a, complex<T> &b)
+complex<T> sub(complex<T> &a, complex<T> &b)
 {
 	complex<T> res;
 	res.re = a.re - b.re;
 	res.im = a.im - b.im;
+	return res;
 }
 template <typename T>
-complex<T> operator-(const complex<T> &a, const complex<T> &b)
+complex<T> operator-(complex<T> &a, complex<T> &b)
 {
 	return sub(a, b);
 }
@@ -67,7 +68,7 @@ complex<T> operator-(const complex<T> &a, const complex<T> &b)
 template <typename T>
 complex<T> conj(complex<T> &a)
 {
-	complex res;
+	complex<T> res;
 	res.re = a.re;
 	res.im = -a.im;
 	return res;
