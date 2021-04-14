@@ -15,6 +15,14 @@ complex<T> operator*(const complex<T> &a, const complex<T> &b)
 {
 	return mul(a, b);
 }
+template <typename T>
+complex<T> operator*(const float &a, const complex<T> &b)
+{
+	complex<T> res;
+	res.re = a * b.re;
+	res.im = a * b.im;
+	return res;
+}
 
 //乘i
 template <typename T>
