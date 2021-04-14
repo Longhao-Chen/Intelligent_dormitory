@@ -1,3 +1,7 @@
+/*
+Copyright (c) 2021 Longhao-Chen. All rights reserved.
+*/
+
 //离散余弦变换，使用fft
 #include "dsp.hpp"
 
@@ -6,10 +10,15 @@
 template <size_t N>
 void dct(int (&in)[N], int (&out)[N - 2])
 {
-	per_data(in);		   //数据预处理
-	complex<int> Y[N / 2 - 1]; //用来保存实数fft的结果，无第0项和N/2项，只有1～N/2-1项
+	per_data(in);		     //数据预处理
+	complex<float> Y[N / 2 - 1]; //用来保存实数fft的结果，无第0项和N/2项，只有1～N/2-1项
 	real_fft(in, Y);
-	Y2out(Y, out);
+
+	for (int i = 0; i < N / 2 - 1; ++i)
+	{
+		out[i] = round(Y[i].re * fastcos((int)round(0.5 * (i + 1) / (4 * N + 4) * 128) & 127) + Y[i].im * fastsin((int)round(0.5 * (i + 1) / (4 * N + 4) * 128) & 127));
+		out[N - i - 3] = round(Y[i].re * fastcos((int)round(0.5 * (N - i - 1) / (2 * N) * 128) & 127) - Y[i].im * fastsin((int)round(0.5 * (N - i - 1) / (2 * N) * 128) & 127)); //共轭复数，所以中间取负
+	}
 }
 
 //数据预处理
@@ -24,15 +33,4 @@ inline void per_data(int (&in)[N])
 	}
 	for (int i = 0; i < N / 2; ++i)
 		in[N - i - 1] = tmp[i];
-}
-
-//Re{e^(-i*n*pi/(2*N))*Y}
-template <size_t N>
-inline void Y2out(complex<int> (&Y)[N], int (&out)[])
-{
-	for (int i = 0; i < N; ++i)
-	{
-		out[i] = round(Y[i].re * fastcos(round(0.5 * (i + 1) / (4 * N + 4) * 128) & 127) + Y[i].im * fastsin(round(0.5 * (i + 1) / (4 * N + 4) * 128) & 127));
-		out[2 * N - i - 1] = round(Y[i].re * fastcos(round(0.5 * (2 * N - i + 1) / (4 * N + 4) * 128) & 127) - Y[i].im * fastsin(round(0.5 * (2 * N - i + 1) / (4 * N + 4) * 128) & 127));
-	}
 }
