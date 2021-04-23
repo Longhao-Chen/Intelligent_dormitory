@@ -2,6 +2,9 @@
 Copyright (c) 2021 Longhao-Chen. All rights reserved.
 */
 
+#ifndef DSP_HPP
+#define DSP_HPP
+
 //复数
 template <class T>
 struct complex
@@ -44,3 +47,9 @@ void real_fft(T (&in)[N], T (&out)[N / 2 - 2]);
 
 template <size_t N>
 void dct(int (&in)[N], int (&out)[N - 2]);
+
+#include "complex.cpp"
+#include "dct.hpp"
+#include "fft.cpp"
+
+#endif
