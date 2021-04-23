@@ -20,7 +20,7 @@ private:
 
 public:
 	//交换读写数组
-	void switch ()
+	void switch_data()
 	{
 		this->cbit = this->cbit ^ true;
 	}
