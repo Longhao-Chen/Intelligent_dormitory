@@ -3,7 +3,6 @@ Copyright (c) 2021 Longhao-Chen. All rights reserved.
 */
 
 //通过查表法计算三角函数
-#include "dsp.hpp"
 #include <avr/pgmspace.h>
 
 //cos三角函数表，0-359度
@@ -162,12 +161,12 @@ int16_t fastsin32767(uint8_t x)
 //输出范围：-1~1
 float fastcos(uint8_t x)
 {
-	return fastcos32767(x) / 32767;
+	return (float)fastcos32767(x) / 32767.;
 }
 
 //输入范围：0-127
 //输出范围：-1~1
 float fastsin(uint8_t x)
 {
-	return fastsin32767(x) / 32767;
+	return (float)fastsin32767(x) / 32767.;
 }

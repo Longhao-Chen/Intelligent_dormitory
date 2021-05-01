@@ -3,7 +3,7 @@ Copyright (c) 2021 Longhao-Chen. All rights reserved.
 */
 
 #include <Arduino.h>
-#include "dsp.hpp"
+#include "queue.hpp"
 
 //e^(-i*2*pi*k/N)
 complex<float> W(int k, int N)
@@ -20,12 +20,12 @@ complex<float> W(int k, int N)
 }
 
 //计算实数fft，只输出1～N/2-1项
-template <typename T, typename T1, size_t N>
-void real_fft(T (&in)[N], T1 (&out)[N / 2 - 1])
+template <typename T, typename T1, int N>
+void real_fft(queue128<T>(&in), T1 (&out)[N])
 {
-	T1 H[N / 2];
+	complex<float> H[(2 * N + 2) / 2];
 	//预处理
-	for (int i = 0; i < N / 2; ++i)
+	for (int i = 0; i < (2 * N + 2) / 2; ++i)
 	{
 		H[i].re = in[2 * i];
 		H[i].im = in[2 * i + 1];
@@ -34,19 +34,19 @@ void real_fft(T (&in)[N], T1 (&out)[N / 2 - 1])
 	fft(H);
 
 	//后处理
-	for (int i = 0; i < N / 2 - 1; ++i)
+	for (int i = 0; i < (2 * N + 2) / 2 - 1; ++i)
 	{
-		out[i] = 0.5 * (H[i + 1] + conj(H[N / 2 - i - 1])) - 0.5 * mul_i(H[i + 1] - conj(H[N / 2 - i - 1])) * W(i + 1, N);
+		out[i] = 0.5 * (H[i + 1] + conj(H[(2 * N + 2) / 2 - i - 1])) - 0.5 * mul_i(H[i + 1] - conj(H[(2 * N + 2) / 2 - i - 1])) * W(i + 1, (2 * N + 2));
 	}
 }
 
 //处理倒位
-template <typename T, size_t N>
+template <typename T, int N>
 void fft_per(complex<T> (&IN_X)[N])
 {
 
-	int row = log2(N); //row为FFT的N个输入对应的最大列数
-	complex<T> temp;   //临时交换变量
+	int row = log(N) / log(2); //row为FFT的N个输入对应的最大列数
+	complex<T> temp;	   //临时交换变量
 	unsigned short i = 0, j = 0, k = 0;
 	double t;
 	for (i = 0; i <= row; ++i) //从第0个序号到第N-1个序号
@@ -73,13 +73,13 @@ void fft_per(complex<T> (&IN_X)[N])
 }
 
 //离散傅立叶变换
-template <typename T, size_t N>
+template <typename T, int N>
 void fft(complex<T> (&Data)[N])
 {
 	fft_per(Data);
 	int step;
 	complex<T> wn, temp, deltawn;
-	int Log2N = log2(N);
+	int Log2N = log(N) / log(2);
 	for (int ii = 1; ii <= Log2N; ii++)
 	{
 		wn.re = 1;

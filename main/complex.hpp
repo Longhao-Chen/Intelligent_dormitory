@@ -3,7 +3,21 @@ Copyright (c) 2021 Longhao-Chen. All rights reserved.
 */
 
 //复数运算
-#include "dsp.hpp"
+
+//复数
+template <class T>
+struct complex
+{
+	T re;
+	T im;
+
+	template <typename T1>
+	void operator=(const complex<T1> &a)
+	{
+		re = a.re;
+		im = a.im;
+	}
+};
 
 //复数乘法
 template <typename T>
